@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brightwater Local – Ice Storm Coverage</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#050505;--bg2:#0d0d0e;--ink:#f4f4f5;--text:#a1a1a6;--muted:#7b7b82;--line:#232326;--red:#e5303a;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg2);color:var(--text);font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.7}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:var(--bg);border-bottom:1px solid var(--line)}
+.logo{font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.logo span{color:var(--red)}
+.badge{background:var(--red);color:#fff;font-weight:600;font-size:.9rem;padding:10px 16px;border-radius:6px}
+.stories{display:flex;gap:4px;padding:0 24px;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto}
+.stories button{font:inherit;font-size:.95rem;font-weight:500;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:14px 14px 11px;cursor:pointer;white-space:nowrap}
+.stories button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--red)}
+button:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+header{background:var(--bg);padding:56px 24px 52px;border-bottom:1px solid var(--line)}
+.in{max-width:780px;margin:0 auto}
+.cat{color:var(--red);font-size:.82rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin:0 0 20px}
+h1{color:var(--ink);font-size:clamp(2.1rem,6.5vw,3.5rem);line-height:1.08;font-weight:600;letter-spacing:-.02em;margin:0 0 22px}
+.sub{font-size:1.2rem;color:var(--text);margin:0 0 20px}
+.pub{color:var(--muted);font-size:1rem;margin:0}
+main{padding:44px 24px 80px}
+.lede{font-size:clamp(1.25rem,3.4vw,1.6rem);line-height:1.6;color:var(--text);margin:0 0 40px}
+h2{color:var(--ink);font-size:1.6rem;font-weight:500;margin:40px 0 14px;letter-spacing:-.01em}
+.art p{font-size:1.08rem;margin:0 0 1em}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<nav><div class="logo">Brightwater <span>Local</span></div><div class="badge" id="badge"></div></nav>
+<div class="stories" role="tablist" id="stories"></div>
+<header><div class="in">
+  <p class="cat" id="cat"></p>
+  <h1 id="title"></h1>
+  <p class="sub" id="sub" hidden></p>
+  <p class="pub" id="pub"></p>
+</div></header>
+<main><div class="in"><section class="art" id="art"></section></div></main>
+
+<script>
+var S=[
+{nav:"Special report",badge:"Breaking news",cat:"Special report",
+ title:"Nine Days Without Power: Ice Storm, a 22% Rate Hike Request, and a Second Storm",sub:"",pub:"Brightwater, November 22",
+ blocks:[
+  ["l","BRIGHTWATER — An ice storm hit Brightwater on Sunday, covering trees and power lines in ice. By midnight, transformers were exploding across the county, lighting up the sky with blue-green flashes. The town lost power for nine days."],
+  ["h","A dangerous outage"],
+  ["p","The outage quickly became dangerous. On Day 4, Brightwater Manor nursing home ran out of diesel for its generator. On Day 6, a family of five was hospitalized with carbon monoxide poisoning after using a grill indoors."],
+  ["h","Relief, then a rate request"],
+  ["p","Power was finally restored on Day 9. But the next day, the utility proposed a 22% rate increase, leaving residents angry and worried about the cost."],
+  ["h","A second storm"],
+  ["p","Then another ice storm hit. Power went out again, this time for two days. After weeks of disruption, residents were furious."]]},
+{nav:"Town announcement",badge:"Official announcement",cat:"Official town announcement",
+ title:"Brightwater Announces Plan to Strengthen Storm Preparedness",
+ sub:"New plan focuses on reliable power, emergency support, and affordable electricity for residents.",pub:"Brightwater",
+ blocks:[
+  ["l","BRIGHTWATER — Following nine days without power and another two-day outage, Brightwater has approved a plan to improve its power system and prepare for future winter storms."],
+  ["h","What the Plan Includes"],
+  ["p","The plan includes a solar-plus-battery microgrid for the school, nursing home, and town hall. The school roof will be replaced before solar panels can be installed, adding 10 points to the project. The town will also trim trees along power lines and require nursing homes and gas stations to have backup power."],
+  ["p","To protect residents during future emergencies, Brightwater will establish neighborhood resilience hubs with heat, water, and phone charging. The town will also work with the utility to reduce the proposed rate increase from 22% to 10%."],
+  ["p","The plan costs 90 points, with an additional 10 points earned through the rate agreement."],
+  ["h","What Officials Say"],
+  ["p","Town officials say the plan focuses on both preventing power outages and protecting residents when outages happen. While these improvements cannot prevent every storm-related outage, they will help the town respond more effectively."],
+  ["p","The goal is not only to restore power, but to make sure no resident is left without help during the next emergency."]]}
+];
+var $=function(i){return document.getElementById(i)};
+function show(n){
+  var s=S[n];
+  [].forEach.call($("stories").children,function(b,i){b.setAttribute("aria-selected",i===n)});
+  $("badge").textContent=s.badge;$("cat").textContent=s.cat;$("title").textContent=s.title;
+  $("sub").textContent=s.sub;$("sub").hidden=!s.sub;$("pub").textContent=s.pub;
+  var a=$("art");a.innerHTML="";
+  s.blocks.forEach(function(b){
+    var e=document.createElement(b[0]==="h"?"h2":"p");
+    if(b[0]==="l")e.className="lede";
+    e.textContent=b[1];a.appendChild(e);
+  });
+  window.scrollTo(0,0);
+}
+S.forEach(function(s,i){var b=document.createElement("button");b.setAttribute("role","tab");b.textContent=s.nav;b.onclick=function(){show(i)};$("stories").appendChild(b)});
+show(0);
+</script>
+</body>
+</html>
